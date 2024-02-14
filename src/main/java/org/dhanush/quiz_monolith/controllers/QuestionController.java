@@ -3,6 +3,9 @@ package org.dhanush.quiz_monolith.controllers;
 import org.dhanush.quiz_monolith.entites.Question;
 import org.dhanush.quiz_monolith.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +22,17 @@ public class QuestionController {
     }
 
     @GetMapping(value = "allQuestions")
-    public List<Question> getAllQuestions(){
+    public ResponseEntity<List<Question>>  getAllQuestions(){
+
         return questionService.getAllQuestions();
     }
     @GetMapping(value = "category/{category}")
-    public List<Question> getQuestionsByCategory(@PathVariable String category){
-        return questionService.getQuestionsByCategory(category);
+    public ResponseEntity<List<Question>>  getQuestionsByCategory(@PathVariable String category){
+        return questionService.getQuestionsByCategory(category) ;
     }
 
     @PostMapping(value = "create")
-    public String createQuestion(@RequestBody Question question){
+    public ResponseEntity<String> createQuestion(@RequestBody Question question){
         return questionService.createQuestion(question);
     }
 

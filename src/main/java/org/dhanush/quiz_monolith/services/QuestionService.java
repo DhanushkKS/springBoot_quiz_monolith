@@ -5,8 +5,10 @@ import org.dhanush.quiz_monolith.entites.Question;
 import org.dhanush.quiz_monolith.repositories.IQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,16 +20,34 @@ private final IQuestionRepository questionRepository;
     public QuestionService(IQuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
-    public List<Question>  getAllQuestions(){
-        return questionRepository.findAll();
-    }
-    public List<Question> getQuestionsByCategory(String category){
-        return questionRepository.findByCategory(category);
+    public ResponseEntity<List<Question>>   getAllQuestions(){
+        try {
+
+        return new ResponseEntity<>(questionRepository.findAll(), HttpStatus.OK) ;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST) ;
 
     }
+    public ResponseEntity<List<Question>> getQuestionsByCategory(String category){
 
-    public String createQuestion(Question question) {
+        try {
+
+            return new ResponseEntity<>(questionRepository.findByCategory(category), HttpStatus.OK) ;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<String> createQuestion(Question question) {
+        try{
+
         questionRepository.save(question);
-        return "question created Success";
+        return new ResponseEntity<>("question created Success",HttpStatus.CREATED) ;
+        }catch (Exception e){
+            e.printStackTrace();
+        }return new ResponseEntity<>("Error in creating Question",HttpStatus.BAD_REQUEST);
     }
 }

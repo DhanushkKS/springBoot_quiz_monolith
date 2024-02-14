@@ -5,6 +5,8 @@ import org.dhanush.quiz_monolith.repositories.IQuestionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -39,9 +41,7 @@ public class DataSeeder implements CommandLineRunner {
                 new Question(19, "javascript", "hard", "A scripting language", "A programming language", "A markup language", "None of the above", "What is JavaScript?", "A markup language"),
                 new Question(20, "html", "easy", "Hypertext Markup Language", "Hypertext Transfer Protocol", "High-level programming language", "None of the above", "What does HTML stand for?", "High-level programming language")
         };
-        for (Question question : dummyQuestions) {
-            questionRepository.save(question);
-        }
+        questionRepository.saveAll(Arrays.asList(dummyQuestions));
 
     }
 }
